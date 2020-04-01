@@ -28,25 +28,26 @@ export class MatableComponent implements OnInit {
     // Create 100 users
     data.getdata().subscribe((res) => {
       this.users = res;
-      console.log(this.users);
       // Assign the data to the data source for the table to render
       const ds = [];
       let c = 1;
+      let prevR = -1;
       this.users.forEach(element => {
         ds.push({
-          Rank: c++,
+          Rank: c,
           HackerrankHandle: element.HackerrankHandle,
           Rating: element.Rating,
           TimesPlayed: element.TimesPlayed
         });
+        if (prevR !== element.Rating) {
+          c++;
+          prevR = element.Rating;
+        }
       });
-      console.log(ds);
       this.dataSource = new MatTableDataSource(ds);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-
-    console.log(this.dataSource);
   }
 
   ngOnInit() {
