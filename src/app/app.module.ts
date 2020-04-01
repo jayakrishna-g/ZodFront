@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatableComponent } from './matable/matable.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import {A11yModule} from '@angular/cdk/a11y';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -56,11 +57,8 @@ import {MatTreeModule} from '@angular/material/tree';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  exports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
     A11yModule,
     CdkStepperModule,
     CdkTableModule,
@@ -103,6 +101,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatTreeModule,
     PortalModule,
     ScrollingModule,
-  ]
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

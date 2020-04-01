@@ -2,24 +2,14 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { DataserviceService } from '../dataservice.service';
 
 export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
+  Rank: number;
+  HackerrankHandle: string;
+  Rating: number;
+  TimesPlayed: number;
 }
-
-
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
-
 
 @Component({
   selector: 'app-matable',
@@ -28,23 +18,38 @@ const NAMES: string[] = [
 })
 
 export class MatableComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'color'];
+  displayedColumns: string[] = ['Rank', 'HackerrankHandle', 'Rating', 'TimesPlayed'];
   dataSource: MatTableDataSource<UserData>;
-
+  users;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor() {
+  constructor(private data: DataserviceService) {
     // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    data.getdata().subscribe((res) => {
+      this.users = res;
+      console.log(this.users);
+      // Assign the data to the data source for the table to render
+      const ds = [];
+      let c = 1;
+      this.users.forEach(element => {
+        ds.push({
+          Rank: c++,
+          HackerrankHandle: element.HackerrankHandle,
+          Rating: element.Rating,
+          TimesPlayed: element.TimesPlayed
+        });
+      });
+      console.log(ds);
+      this.dataSource = new MatTableDataSource(ds);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
 
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    console.log(this.dataSource);
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -55,16 +60,4 @@ export class MatableComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
-
-function createNewUser(id: number): UserData {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  };
 }
