@@ -30,6 +30,15 @@ export class MatableComponent implements OnInit {
     // Create 100 users
     data.getdata().subscribe((res) => {
       this.users = res;
+      this.users.sort((ele1, ele2) => {
+        if (ele1.Rating < ele2.Rating) {
+        return 1;
+        }
+        if (ele1.Rating > ele2.Rating) {
+        return -1;
+        }
+        return 0;
+      });
       // Assign the data to the data source for the table to render
       const ds = [];
       let c = 1;
@@ -51,7 +60,7 @@ export class MatableComponent implements OnInit {
         } else {
           color = 'gray';
         }
-        const ProfileUrl = 'https://www.hackerrank.com/' + element.HackerrankHandle+'?hr_r=1';
+        const ProfileUrl = 'https://www.hackerrank.com/' + element.HackerrankHandle + '?hr_r=1';
         ds.push({
           Rank: c,
           HackerrankHandle: element.HackerrankHandle,
