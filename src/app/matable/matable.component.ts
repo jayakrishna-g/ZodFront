@@ -6,9 +6,11 @@ import { DataserviceService } from '../dataservice.service';
 
 export interface UserData {
   Rank: number;
+  color: string;
   HackerrankHandle: string;
   Rating: number;
   TimesPlayed: number;
+  ProfileUrl: string;
 }
 
 @Component({
@@ -33,11 +35,30 @@ export class MatableComponent implements OnInit {
       let c = 1;
       let prevR = -1;
       this.users.forEach(element => {
+        let color = 'green';
+        if (element.Rating >= 2500) {
+          color = 'red';
+        } else if (element.Rating >= 2200) {
+          color = 'orange';
+        } else if (element.Rating >= 2000) {
+          color = 'yellow';
+        } else if (element.Rating >= 1800) {
+          color = 'fuchsia';
+        } else if (element.Rating >= 1600) {
+          color = 'aqua';
+        } else if (element.Rating >= 1400) {
+          color = 'green';
+        } else {
+          color = 'gray';
+        }
+        const ProfileUrl = 'https://www.hackerrank.com/' + element.HackerrankHandle+'?hr_r=1';
         ds.push({
           Rank: c,
           HackerrankHandle: element.HackerrankHandle,
           Rating: element.Rating,
-          TimesPlayed: element.TimesPlayed
+          TimesPlayed: element.TimesPlayed,
+          color,
+          ProfileUrl
         });
         if (prevR !== element.Rating) {
           c++;

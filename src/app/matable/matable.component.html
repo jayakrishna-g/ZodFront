@@ -15,7 +15,7 @@
       <!-- HackerrankHandle Column -->
       <ng-container matColumnDef="HackerrankHandle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> HackerrankHandle </th>
-        <td mat-cell *matCellDef="let row"> {{row.HackerrankHandle}} </td>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.HackerrankHandle}} </td>
       </ng-container>
   
       <!-- Rating Column -->
