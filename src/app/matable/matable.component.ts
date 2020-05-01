@@ -20,7 +20,7 @@ export interface UserData {
 })
 
 export class MatableComponent implements OnInit {
-  displayedColumns: string[] = ['Rank', 'HackerrankHandle', 'Rating', 'TimesPlayed'];
+  displayedColumns: string[] = ['Rank', 'Handle', 'Rating', 'TimesPlayed'];
   dataSource: MatTableDataSource<UserData>;
   users;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -45,17 +45,17 @@ export class MatableComponent implements OnInit {
       let prevR = -1;
       this.users.forEach(element => {
         let color = 'green';
-        if (element.Rating >= 2500) {
+        if (element.Rating >= 2400) {
           color = 'red';
-        } else if (element.Rating >= 2200) {
-          color = 'orange';
         } else if (element.Rating >= 2000) {
-          color = 'yellow';
+          color = 'orange';
         } else if (element.Rating >= 1800) {
-          color = 'fuchsia';
+          color = 'yellow';
         } else if (element.Rating >= 1600) {
-          color = 'aqua';
+          color = 'fuchsia';
         } else if (element.Rating >= 1400) {
+          color = 'aqua';
+        } else if (element.Rating >= 1200) {
           color = 'green';
         } else {
           color = 'gray';
@@ -63,7 +63,7 @@ export class MatableComponent implements OnInit {
         const ProfileUrl = 'https://www.hackerrank.com/' + element.HackerrankHandle + '?hr_r=1';
         ds.push({
           Rank: c,
-          HackerrankHandle: element.HackerrankHandle,
+          Handle: element.Handle,
           Rating: element.Rating,
           TimesPlayed: element.TimesPlayed,
           color,

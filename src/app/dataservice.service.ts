@@ -8,6 +8,6 @@ export class DataserviceService {
   
   constructor(private http: HttpClient) { }
   getdata() {
-    return this.http.get('https://zodapi.herokuapp.com/api/players');
+    return this.http.get('https://bz-iccc.herokuapp.com/api/ratings/all');
   }
 }
